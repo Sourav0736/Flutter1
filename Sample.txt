@@ -1,0 +1,568 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: CounterApp(),
+    );
+  }
+}
+
+class CounterApp extends StatefulWidget {
+
+  @override
+  State<CounterApp> createState() => _CounterAppState();
+}
+
+class _CounterAppState extends State<CounterApp> {
+
+  int count = 0;
+
+  void increment() {
+    setState(() {
+      count++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      count--;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Counter App"),
+      ),
+
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            Text(
+              "Count: $count",
+              style: TextStyle(fontSize: 30),
+            ),
+
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                ElevatedButton(
+                  onPressed: increment,
+                  child: Text("Increase"),
+                ),
+
+                SizedBox(width: 20),
+
+                ElevatedButton(
+                  onPressed: decrement,
+                  child: Text("Decrease"),
+                ),
+
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+//navigation
+import 'package:flutter/material.dart';
+import 'home.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
+  }
+}
+
+
+import 'package:flutter/material.dart';
+import 'profile.dart';
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home Page"),
+      ),
+
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfilePage(),
+              ),
+            );
+          },
+          child: Text("Go to Profile"),
+        ),
+      ),
+    );
+  }
+}
+
+//text field
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: RegistrationPage(),
+  ));
+}
+
+class RegistrationPage extends StatefulWidget {
+
+  @override
+  State<RegistrationPage> createState() =>
+      _RegistrationPageState();
+}
+
+class _RegistrationPageState
+    extends State<RegistrationPage> {
+
+  final _formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Registration Form"),
+      ),
+
+      body: Padding(
+        padding: EdgeInsets.all(20),
+
+        child: Form(
+          key: _formKey,
+
+          child: Column(
+            children: [
+
+              TextFormField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: "Name",
+                  border: OutlineInputBorder(),
+                ),
+
+                validator: (value) {
+                  if (value == null ||
+                      value.trim().isEmpty) {
+                    return "Please enter your name";
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20),
+
+              TextFormField(
+                controller: emailController,
+                keyboardType:
+                    TextInputType.emailAddress,
+
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  border: OutlineInputBorder(),
+                ),
+
+                validator: (value) {
+                  if (value == null ||
+                      !value.contains("@") ||
+                      !value.contains(".")) {
+                    return "Enter a valid email";
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20),
+
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  border: OutlineInputBorder(),
+                ),
+
+                validator: (value) {
+                  if (value == null ||
+                      value.length < 6) {
+                    return "Password must be 6 characters";
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 25),
+
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Registration Successful",
+                        ),
+                      ),
+                    );
+                  }
+                },
+
+                child: Text("Register"),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//animation
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const AnimationPage(),
+    );
+  }
+}
+
+class AnimationPage extends StatefulWidget {
+  const AnimationPage({super.key});
+
+  @override
+  State<AnimationPage> createState() => _AnimationPageState();
+}
+
+class _AnimationPageState extends State<AnimationPage> {
+  // Step 3: Create state variable
+  bool isLarge = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Animated Container'),
+        backgroundColor: Colors.blue,
+      ),
+
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            // Step 2 and Step 4: Create AnimatedContainer
+            AnimatedContainer(
+              duration: const Duration(seconds: 1),
+
+              width: isLarge ? 300 : 150,
+              height: isLarge ? 300 : 150,
+
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+
+              child: const Center(
+                child: Text(
+                  'Flutter',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Step 5: Add button
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isLarge = !isLarge;
+                });
+              },
+              child: const Text('Animate'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//serializability
+
+student.dart
+class Student {
+  final int id;
+  final String name;
+  final String course;
+
+  Student({
+    required this.id,
+    required this.name,
+    required this.course,
+  });
+
+  // Convert Student object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'course': course,
+    };
+  }
+
+  // Convert JSON to Student object
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      id: json['id'],
+      name: json['name'],
+      course: json['course'],
+    );
+  }
+}
+
+main.dart
+import 'package:flutter/material.dart';
+import 'student.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const StudentPage(),
+    );
+  }
+}
+
+class StudentPage extends StatefulWidget {
+  const StudentPage({super.key});
+
+  @override
+  State<StudentPage> createState() => _StudentPageState();
+}
+
+class _StudentPageState extends State<StudentPage> {
+
+  // Step 6: Create a list
+  List<String> students = [];
+
+  // Create student object and convert JSON
+  void addStudent() {
+
+    // Step 3: Create student object
+    Student student = Student(
+      id: 1,
+      name: 'Raj',
+      course: 'CSE',
+    );
+
+    // Step 4: Convert object to JSON
+    Map<String, dynamic> data = student.toJson();
+
+    print(data);
+
+    // Step 5: Convert JSON back to object
+    Student newStudent = Student.fromJson(data);
+
+    print(newStudent.name);
+
+    // Step 6: Add student to list
+    setState(() {
+      students.add(newStudent.name);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Student List'),
+        backgroundColor: Colors.blue,
+      ),
+
+      body: Column(
+        children: [
+
+          const SizedBox(height: 20),
+
+          // Add Student button
+          ElevatedButton(
+            onPressed: addStudent,
+            child: const Text('Add Student'),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Step 7: Display student list
+          Expanded(
+            child: ListView.builder(
+              itemCount: students.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: const Icon(Icons.person),
+                  title: Text(students[index]),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+//image
+yaml:
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+command to get packages:
+flutter pub get
+
+main.dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const ImageGallery(),
+    );
+  }
+}
+
+class ImageGallery extends StatelessWidget {
+  const ImageGallery({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Image Gallery'),
+        backgroundColor: Colors.blue,
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+
+          children: [
+            Image.asset(
+              'assets/images/flutter.png',
+              fit: BoxFit.cover,
+            ),
+
+            Image.asset(
+              'assets/images/flutter.png',
+              fit: BoxFit.cover,
+            ),
+
+            Image.asset(
+              'assets/images/flutter.png',
+              fit: BoxFit.cover,
+            ),
+
+            Image.asset(
+              'assets/images/flutter.png',
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+run program:
+flutter pub get
+flutter run
+
